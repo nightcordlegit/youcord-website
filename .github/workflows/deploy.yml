@@ -19,6 +19,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - name: Get latest release version
+        id: version
+        run: |
+          TAG=$(gh release view --repo nightcordlegit/youcord --json tagName --jq .tagName 2>/dev/null || echo "unknown")
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Inject version into index.html
+        run: |
+          sed -i "s/__VERSION__/${{ steps.version.outputs.tag }}/g" index.html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
