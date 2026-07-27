@@ -19,7 +19,7 @@ HTML = r"""<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>YouCord — Le client Discord rapide et open source</title>
-<meta name="description" content="YouCord : un client Discord personnalisé, rapide et sans bloat. Fork propre d'Equicord/Vencord avec 380 plugins. Téléchargez le .exe pour Windows.">
+<meta name="description" content="YouCord : un client Discord personnalisé, rapide et sans bloat. Fork propre d'Equicord/Vencord avec 380 plugins. Téléchargez le .exe pour Windows ou le .dmg pour Mac.">
 <link rel="icon" href="data:image/png;base64,__ICON_B64__">
 <style>
 :root{
@@ -135,7 +135,7 @@ section{padding:64px 0}
 .load-more{display:block;margin:26px auto 0}
 
 /* ---------- INSTALL ---------- */
-.install-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.install-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px}
 .icard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
 .icard h3{font-size:20px;font-weight:800;display:flex;align-items:center;gap:10px}
 .icard .step{color:var(--muted);font-size:15px;margin:14px 0;display:flex;gap:12px}
@@ -212,12 +212,12 @@ footer{border-top:1px solid var(--line);background:var(--bg-2);padding:48px 0 30
 </section>
 
 <div class="wrap">
-  <div class="stats">
-    <div class="stat"><div class="num grad-text" data-count="380">380</div><div class="lbl">Plugins disponibles</div></div>
-    <div class="stat"><div class="num grad-text" data-count="60">60</div><div class="lbl">Signés YouCord</div></div>
-    <div class="stat"><div class="num grad-text" data-count="24">24</div><div class="lbl">Catégories</div></div>
-    <div class="stat"><div class="num grad-text">∞</div><div class="lbl">Personnalisation</div></div>
-  </div>
+    <div class="stats">
+      <div class="stat"><div class="num grad-text" data-count="380">380</div><div class="lbl">Plugins disponibles</div></div>
+      <div class="stat"><div class="num grad-text" id="win-count" data-count="0">0</div><div class="lbl">Téléchargements Windows</div></div>
+      <div class="stat"><div class="num grad-text" id="mac-count" data-count="0">0</div><div class="lbl">Téléchargements macOS</div></div>
+      <div class="stat"><div class="num grad-text">∞</div><div class="lbl">Personnalisation</div></div>
+    </div>
 </div>
 
 <section id="features">
@@ -263,7 +263,7 @@ footer{border-top:1px solid var(--line);background:var(--bg-2);padding:48px 0 30
     <div class="sec-head">
       <div class="kicker">Installation</div>
       <h2>Installe en 30 secondes</h2>
-      <p>Windows uniquement. Deux méthodes au choix.</p>
+      <p>Windows, macOS et Linux. Choisis ta méthode.</p>
     </div>
     <div class="install-grid">
       <div class="icard">
@@ -275,7 +275,18 @@ footer{border-top:1px solid var(--line);background:var(--bg-2);padding:48px 0 30
         <p class="tiny">Pas de release ? <a href="__RELEASES__" target="_blank" rel="noopener" style="color:var(--gold)">Voir toutes les versions sur GitHub →</a></p>
       </div>
       <div class="icard">
-        <h3>⚙ Méthode 2 — PowerShell</h3>
+        <h3><i class="bi-apple"></i> Méthode 2 — macOS .dmg</h3>
+        <div class="step"><span class="n">1</span><span>Télécharge le <b>.dmg</b> pour ton architecture ci-dessous.</span></div>
+        <div class="step"><span class="n">2</span><span>Ouvre le fichier et glisse <b>YouCord</b> dans le dossier <b>Applications</b>.</span></div>
+        <div class="step"><span class="n">3</span><span>Ouvre YouCord depuis le dossier Applications — c'est prêt.</span></div>
+        <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap">
+          <a class="btn btn-purple" id="mac-arm-btn" href="__RELEASES__" target="_blank" rel="noopener"><i class="bi-download"></i> Apple Silicon</a>
+          <a class="btn btn-purple" id="mac-intel-btn" href="__RELEASES__" target="_blank" rel="noopener"><i class="bi-download"></i> Intel (x64)</a>
+        </div>
+        <p class="tiny">Besoin d'aide ? <a href="https://support.apple.com/fr-fr/HT211814" target="_blank" rel="noopener" style="color:var(--gold)">Vérifie ton processeur →</a></p>
+      </div>
+      <div class="icard">
+        <h3>⚙ Méthode 3 — PowerShell / Linux</h3>
         <div class="step"><span class="n">1</span><span>Télécharge <b>youcord-install.ps1</b> depuis le dépôt.</span></div>
         <div class="step"><span class="n">2</span><span>Clic droit → <b>Exécuter avec PowerShell</b>.</span></div>
         <div class="step"><span class="n">3</span><span>Suis les étapes, redémarre Discord, terminé.</span></div>
@@ -411,8 +422,46 @@ function animate(el){
   const step = Math.max(1, Math.round(target/40));
   const iv = setInterval(()=>{ cur+=step; if(cur>=target){cur=target;clearInterval(iv);} el.textContent=cur; }, 24);
 }
-const io = new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){animate(en.target);io.unobserve(en.target);}}));
-document.querySelectorAll('[data-count]').forEach(el=>io.observe(el));
+function observeStats(){
+  const io = new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){animate(en.target);io.unobserve(en.target);}}));
+  document.querySelectorAll('[data-count]').forEach(el=>io.observe(el));
+}
+observeStats();
+
+// Fetch GitHub download counts & Mac DMG URLs
+async function fetchGitHubStats() {
+  try {
+    const res = await fetch('https://api.github.com/repos/nightcordlegit/youcord/releases?per_page=100');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const releases = await res.json();
+    let winCount = 0, macCount = 0;
+    let latest = releases[0];
+
+    for (const r of releases) {
+      if (!r.assets) continue;
+      for (const a of r.assets) {
+        if (a.name.endsWith('.exe')) winCount += a.download_count;
+        else if (a.name.endsWith('.dmg')) macCount += a.download_count;
+      }
+    }
+
+    document.getElementById('win-count').dataset.count = winCount;
+    document.getElementById('mac-count').dataset.count = macCount;
+    animate(document.getElementById('win-count'));
+    animate(document.getElementById('mac-count'));
+
+    // Set Mac DMG download URLs from latest release
+    if (latest && latest.assets) {
+      for (const a of latest.assets) {
+        if (a.name.endsWith('-arm64.dmg')) document.getElementById('mac-arm-btn').href = a.browser_download_url;
+        else if (a.name.endsWith('-x64.dmg')) document.getElementById('mac-intel-btn').href = a.browser_download_url;
+      }
+    }
+  } catch (e) {
+    console.warn('Stats API indisponible, valeurs par défaut conservées.', e);
+  }
+}
+fetchGitHubStats();
 
 render();
 </script>
