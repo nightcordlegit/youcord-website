@@ -193,7 +193,6 @@ footer{border-top:1px solid var(--line);background:var(--bg-2);padding:48px 0 30
     <p class="tag">Everything Discord doesn't build, we create.</p>
     <p class="sub">Un client Discord personnalisé, rapide et sans bloat. Fork propre d'Equicord et Vencord — obfuscation retirée, démarrage plus léger, et tout l'écosystème de plugins.</p>
     <div class="hero-btns">
-      <a class="btn btn-gold" href="__DOWNLOAD__">⬇ Télécharger le .exe</a>
       <a class="btn btn-ghost" href="#plugins">🧩 Voir les plugins</a>
       <a class="btn btn-purple" href="__TELEGRAM__" target="_blank" rel="noopener">✈ Telegram</a>
     </div>
@@ -268,6 +267,10 @@ footer{border-top:1px solid var(--line);background:var(--bg-2);padding:48px 0 30
     <div class="install-grid">
       <div class="icard">
         <h3>⬇ Méthode 1 — L'installeur .exe</h3>
+        <div class="trust" style="margin:0 0 14px;font-size:13px;padding:12px 14px">
+          <span class="ic">💬</span>
+          <p>Rejoins d'abord le <a href="https://discord.gg/thQ9k7Qgh7" target="_blank" rel="noopener" style="color:var(--gold);font-weight:700">Discord YouCord</a> pour ne pas rater les mises à jour et obtenir de l'aide.</p>
+        </div>
         <div class="step"><span class="n">1</span><span>Télécharge <b>YouCord Setup (.exe)</b> depuis le bouton ci-dessous.</span></div>
         <div class="step"><span class="n">2</span><span>Lance l'exécutable et laisse-le injecter YouCord dans Discord.</span></div>
         <div class="step"><span class="n">3</span><span>Redémarre Discord — c'est prêt.</span></div>
@@ -276,6 +279,10 @@ footer{border-top:1px solid var(--line);background:var(--bg-2);padding:48px 0 30
       </div>
       <div class="icard">
         <h3><i class="bi-apple"></i> Méthode 2 — macOS .dmg</h3>
+        <div class="trust" style="margin:0 0 14px;font-size:13px;padding:12px 14px">
+          <span class="ic">💬</span>
+          <p>Rejoins d'abord le <a href="https://discord.gg/thQ9k7Qgh7" target="_blank" rel="noopener" style="color:var(--gold);font-weight:700">Discord YouCord</a> pour ne pas rater les mises à jour et obtenir de l'aide.</p>
+        </div>
         <div class="step"><span class="n">1</span><span>Télécharge le <b>.dmg</b> pour ton architecture ci-dessous.</span></div>
         <div class="step"><span class="n">2</span><span>Ouvre le fichier et glisse <b>YouCord</b> dans le dossier <b>Applications</b>.</span></div>
         <div class="step"><span class="n">3</span><span>Ouvre YouCord depuis le dossier Applications — c'est prêt.</span></div>
