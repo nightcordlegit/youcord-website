@@ -238,9 +238,9 @@ footer{border-top:1px solid var(--line);background:var(--bg-2);padding:48px 0 30
 <div class="wrap">
     <div class="stats">
       <div class="stat"><div class="num grad-text" data-count="380">380</div><div class="lbl">Plugins disponibles</div></div>
-      <div class="stat"><div class="num grad-text" id="win-count" data-count="0">0</div><div class="lbl">Téléchargements Windows</div></div>
-      <div class="stat"><div class="num grad-text" id="mac-count" data-count="0">0</div><div class="lbl">Téléchargements macOS</div></div>
-      <div class="stat"><div class="num grad-text">∞</div><div class="lbl">Personnalisation</div></div>
+      <div class="stat"><div class="num grad-text" id="total-count" data-count="0">0</div><div class="lbl">Total téléchargements GitHub</div></div>
+      <div class="stat"><div class="num grad-text" id="win-count" data-count="0">0</div><div class="lbl">Windows</div></div>
+      <div class="stat"><div class="num grad-text" id="mac-count" data-count="0">0</div><div class="lbl">macOS</div></div>
     </div>
 </div>
 
@@ -472,19 +472,22 @@ async function fetchGitHubStats() {
     const res = await fetch('https://api.github.com/repos/nightcordlegit/youcord/releases?per_page=100');
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const releases = await res.json();
-    let winCount = 0, macCount = 0;
+    let totalCount = 0, winCount = 0, macCount = 0;
     let latest = releases[0];
 
     for (const r of releases) {
       if (!r.assets) continue;
       for (const a of r.assets) {
+        totalCount += a.download_count;
         if (a.name.endsWith('.exe')) winCount += a.download_count;
         else if (a.name.endsWith('.dmg')) macCount += a.download_count;
       }
     }
 
+    document.getElementById('total-count').dataset.count = totalCount;
     document.getElementById('win-count').dataset.count = winCount;
     document.getElementById('mac-count').dataset.count = macCount;
+    animate(document.getElementById('total-count'));
     animate(document.getElementById('win-count'));
     animate(document.getElementById('mac-count'));
 
