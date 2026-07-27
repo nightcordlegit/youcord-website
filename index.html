@@ -154,6 +154,19 @@ section{padding:64px 0}
 .copy:hover{color:#fff}
 .tiny{font-size:12.5px;color:#7c729a;margin-top:12px}
 
+/* ---------- MODAL ---------- */
+.modal-overlay{position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.25s}
+.modal-overlay.show{opacity:1;pointer-events:auto}
+.modal-box{background:var(--bg-2);border:1px solid var(--line);border-radius:20px;padding:36px 32px;max-width:420px;width:90%;text-align:center;transform:scale(.92);transition:.25s}
+.modal-overlay.show .modal-box{transform:scale(1)}
+.modal-box .icon{font-size:52px;margin-bottom:12px}
+.modal-box h2{font-size:22px;font-weight:900;margin-bottom:8px}
+.modal-box p{color:var(--muted);font-size:15px;margin-bottom:22px;line-height:1.5}
+.modal-btns{display:flex;flex-direction:column;gap:10px}
+.modal-btns .btn{padding:14px;font-size:15px;justify-content:center}
+.modal-skip{background:none;border:0;color:var(--muted);font-size:13px;cursor:pointer;margin-top:12px;transition:.15s}
+.modal-skip:hover{color:var(--txt)}
+
 /* ---------- FOOTER ---------- */
 footer{border-top:1px solid var(--line);background:var(--bg-2);padding:48px 0 30px;margin-top:30px}
 .foot-grid{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
@@ -190,7 +203,7 @@ footer{border-top:1px solid var(--line);background:var(--bg-2);padding:48px 0 30
       <a href="https://discord.gg/P7dVBfDKm2" target="_blank" rel="noopener">Discord</a>
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-gold" href="https://github.com/nightcordlegit/youcord/releases/latest/download/YouCord-Installer.exe"><i class="bi-download"></i> <span class="lbl">Télécharger</span></a>
+      <a class="btn btn-gold download-btn" href="https://github.com/nightcordlegit/youcord/releases/latest/download/YouCord-Installer.exe"><i class="bi-download"></i> <span class="lbl">Télécharger</span></a>
     </div>
   </div>
 </header>
@@ -279,28 +292,20 @@ footer{border-top:1px solid var(--line);background:var(--bg-2);padding:48px 0 30
     <div class="install-grid">
       <div class="icard">
         <h3><i class="bi-download"></i> Méthode 1 — L'installeur .exe</h3>
-        <div class="trust" style="margin:0 0 14px;font-size:13px;padding:12px 14px">
-          <span class="ic"><i class="bi-chat-dots-fill"></i></span>
-          <p>Rejoins d'abord le <a href="https://discord.gg/thQ9k7Qgh7" target="_blank" rel="noopener" style="color:var(--gold);font-weight:700">Discord YouCord</a> pour ne pas rater les mises à jour et obtenir de l'aide.</p>
-        </div>
         <div class="step"><span class="n">1</span><span>Télécharge <b>YouCord Setup (.exe)</b> depuis le bouton ci-dessous.</span></div>
         <div class="step"><span class="n">2</span><span>Lance l'exécutable et laisse-le injecter YouCord dans Discord.</span></div>
         <div class="step"><span class="n">3</span><span>Redémarre Discord — c'est prêt.</span></div>
-        <a class="btn btn-gold" style="margin-top:8px" href="https://github.com/nightcordlegit/youcord/releases/latest/download/YouCord-Installer.exe"><i class="bi-download"></i> Télécharger le .exe</a>
+        <a class="btn btn-gold download-btn" style="margin-top:8px" href="https://github.com/nightcordlegit/youcord/releases/latest/download/YouCord-Installer.exe"><i class="bi-download"></i> Télécharger le .exe</a>
         <p class="tiny">Pas de release ? <a href="https://source.youcord.fr/youcord/youcord/releases" target="_blank" rel="noopener" style="color:var(--gold)">Voir toutes les versions sur GitHub →</a></p>
       </div>
       <div class="icard">
         <h3><i class="bi-apple"></i> Méthode 2 — macOS .dmg</h3>
-        <div class="trust" style="margin:0 0 14px;font-size:13px;padding:12px 14px">
-          <span class="ic"><i class="bi-chat-dots-fill"></i></span>
-          <p>Rejoins d'abord le <a href="https://discord.gg/thQ9k7Qgh7" target="_blank" rel="noopener" style="color:var(--gold);font-weight:700">Discord YouCord</a> pour ne pas rater les mises à jour et obtenir de l'aide.</p>
-        </div>
         <div class="step"><span class="n">1</span><span>Télécharge le <b>.dmg</b> pour ton architecture ci-dessous.</span></div>
         <div class="step"><span class="n">2</span><span>Ouvre le fichier et glisse <b>YouCord</b> dans le dossier <b>Applications</b>.</span></div>
         <div class="step"><span class="n">3</span><span>Ouvre YouCord depuis le dossier Applications — c'est prêt.</span></div>
         <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap">
-          <a class="btn btn-purple" id="mac-arm-btn" href="https://github.com/nightcordlegit/youcord/releases/latest" target="_blank" rel="noopener"><i class="bi-download"></i> Apple Silicon</a>
-          <a class="btn btn-purple" id="mac-intel-btn" href="https://github.com/nightcordlegit/youcord/releases/latest" target="_blank" rel="noopener"><i class="bi-download"></i> Intel (x64)</a>
+          <a class="btn btn-purple download-btn" id="mac-arm-btn" href="https://github.com/nightcordlegit/youcord/releases/latest" target="_blank" rel="noopener"><i class="bi-download"></i> Apple Silicon</a>
+          <a class="btn btn-purple download-btn" id="mac-intel-btn" href="https://github.com/nightcordlegit/youcord/releases/latest" target="_blank" rel="noopener"><i class="bi-download"></i> Intel (x64)</a>
         </div>
         <p class="tiny">Besoin d'aide ? <a href="https://support.apple.com/fr-fr/HT211814" target="_blank" rel="noopener" style="color:var(--gold)">Vérifie ton processeur →</a></p>
       </div>
@@ -483,7 +488,55 @@ async function fetchGitHubStats() {
 }
 fetchGitHubStats();
 
+// Modal download redirect
+const DL_MODAL = document.getElementById('dl-modal');
+const DL_JOIN = document.getElementById('dl-join');
+const DL_CONTINUE = document.getElementById('dl-continue');
+const DL_SKIP = document.getElementById('dl-skip');
+let pendingUrl = '', pendingTarget = '';
+
+document.querySelectorAll('.download-btn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    pendingUrl = btn.getAttribute('href') || btn.dataset.url;
+    pendingTarget = btn.getAttribute('target') || '_self';
+    DL_MODAL.classList.add('show');
+  });
+});
+
+function goToPending() {
+  if (!pendingUrl) return;
+  if (pendingTarget === '_blank') window.open(pendingUrl, '_blank', 'noopener');
+  else window.location.href = pendingUrl;
+  DL_MODAL.classList.remove('show');
+}
+
+DL_JOIN.addEventListener('click', () => {
+  window.open('https://discord.gg/thQ9k7Qgh7', '_blank', 'noopener');
+});
+
+DL_CONTINUE.addEventListener('click', goToPending);
+DL_SKIP.addEventListener('click', goToPending);
+
+DL_MODAL.addEventListener('click', e => {
+  if (e.target === DL_MODAL) DL_MODAL.classList.remove('show');
+});
+
 render();
 </script>
+
+<div class="modal-overlay" id="dl-modal">
+  <div class="modal-box">
+    <div class="icon">💬</div>
+    <h2>Rejoins le Discord YouCord</h2>
+    <p>Avant de télécharger, rejoins notre communauté pour ne pas rater les mises à jour, obtenir de l'aide et discuter avec les autres utilisateurs.</p>
+    <div class="modal-btns">
+      <a class="btn btn-purple" id="dl-join" href="https://discord.gg/thQ9k7Qgh7" target="_blank" rel="noopener"><i class="bi-chat-dots-fill"></i> Rejoindre le Discord</a>
+      <a class="btn btn-gold" id="dl-continue" href="#"><i class="bi-download"></i> Continuer le téléchargement</a>
+    </div>
+    <button class="modal-skip" id="dl-skip">Pas maintenant, télécharger directement</button>
+  </div>
+</div>
+
 </body>
 </html>
