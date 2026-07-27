@@ -339,6 +339,19 @@ footer{border-top:1px solid var(--line);background:var(--bg-2);padding:48px 0 30
   </div>
 </footer>
 
+<div class="modal-overlay" id="dl-modal">
+  <div class="modal-box">
+    <div class="icon">💬</div>
+    <h2>Rejoins le Discord YouCord</h2>
+    <p>Avant de télécharger, rejoins notre communauté pour ne pas rater les mises à jour, obtenir de l'aide et discuter avec les autres utilisateurs.</p>
+    <div class="modal-btns">
+      <a class="btn btn-purple" id="dl-join" href="https://discord.gg/thQ9k7Qgh7" target="_blank" rel="noopener">💬 Rejoindre le Discord</a>
+      <a class="btn btn-gold" id="dl-continue" href="#">⬇ Continuer le téléchargement</a>
+    </div>
+    <button class="modal-skip" id="dl-skip">Pas maintenant, télécharger directement</button>
+  </div>
+</div>
+
 <script>
 const PLUGINS = __PLUGINS_JSON__;
 const CATS = [...new Set(PLUGINS.flatMap(p=>p.t))].sort();
@@ -511,19 +524,6 @@ DL_MODAL.addEventListener('click', e => {
 
 render();
 </script>
-
-<div class="modal-overlay" id="dl-modal">
-  <div class="modal-box">
-    <div class="icon">💬</div>
-    <h2>Rejoins le Discord YouCord</h2>
-    <p>Avant de télécharger, rejoins notre communauté pour ne pas rater les mises à jour, obtenir de l'aide et discuter avec les autres utilisateurs.</p>
-    <div class="modal-btns">
-      <a class="btn btn-purple" id="dl-join" href="https://discord.gg/thQ9k7Qgh7" target="_blank" rel="noopener">💬 Rejoindre le Discord</a>
-      <a class="btn btn-gold" id="dl-continue" href="#">⬇ Continuer le téléchargement</a>
-    </div>
-    <button class="modal-skip" id="dl-skip">Pas maintenant, télécharger directement</button>
-  </div>
-</div>
 
 </body>
 </html>
